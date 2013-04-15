@@ -1,0 +1,10 @@
+final submit
+
+The lsa exchange is based on the trust of the network. Because no athenticated
+is used, any one send a fake lsa will be accepted if it meet the format
+reqirement.
+
+****************************************************************************
+checkpoint 1
+The len field for GETRD and ADDFILE method with negtive value may result in
+abnormal behavior. This has been fixed now.

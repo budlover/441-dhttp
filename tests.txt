@@ -1,0 +1,138 @@
+FOR CHECKPOINT 2
+*************************************************************
+We have provided 4 testcases in the tared file 'test_case.tar.gz', they are:
+1. line_topology
+2. ring_topology
+3. shortest_path
+4. longest prefix 
+
+Here is the explaination:
+
+1. line_topology
+
+In this case, there are four nodes, they connected each other on a line, the 
+topology is like this:
+node1 <------> node2 <-------> node3 <---------> node4
+
+We Firstly upload a file on node4, then on node1, we search that file, and we 
+can get it.
+
+We have provided the node configuration file to make this topology happen, so 
+you can just run the rd and flask server to test it.
+
+How to run this test:
+
+In the path test_case/line_topology/, input:
+./routed 1 node1/n1.conf node1/n1.files 10 30 3 30
+to run the rd server, then in another terminal, input:
+./webserver 5001
+to run the flask server.
+
+Repeat the above process to run the node2, node3, and node4, you need totally 
+eight terminals.
+
+Then you can upload a file on node4, and try to get it on node1.
+
+
+2. ring_topology
+
+In this case, there are four nodes, they connected each other to form a ring, 
+the topology is like this:
+
+node1------------node2
+|                  |
+|                  |
+|                  |
+|                  |
+node3------------node4
+
+We have provided the node configuration file to make this topology happen, 
+so you can just run the rd and flask server to test it.
+
+How to run this test:
+
+Just like what we explained in the above test case, run node1, node2, node3, 
+and node4 in eight terminals (rd server and flask server).
+
+Then you can upload a file on node4, the try to get it on node1. You can see 
+the information on node1 flask server terminal, node1 may send request to 
+node2. Then you can make node2 down, and try to get that file again. You can 
+still get it, but this time node1 send request to node3.
+
+When you make node2 down, you can not get that file immediately, because node1 
+need sometime to know that node2 is down and recalculate the shortest path, 
+so please wait for a moment.
+
+
+3. shortest_path
+
+In this case, there are four nodes, they connected each other, the topology is 
+like this:
+
+node1------------node2
+|                 
+|                 
+|                 
+-----------------node3------------node4
+
+We have provided the node configuration file to make this topology happen, 
+so yo
+u can just run the rd and flask server to test it.
+
+How to run this test:
+
+Just like what we explained in the above test case, run node1, node2, node3, 
+and node4 in eight terminals (rd server and flask server).
+
+Before you run the test case, you need to modify the n2.files and n4.files to 
+write an identical file name in them, and put the file in both node2/static/ 
+and node4/static/ folders. So that node2 and node4 share a same file.
+
+Then you can get that file on node1. You can see the information on node1 
+flask server terminal, node1 should send request to node2, because this is 
+the shortest path. Then you can make node2 down, and try to get that file 
+again. You can still get it, but this time node1 send request to node3.
+
+When you make node2 down, you can not get that file immediately, because node1 
+need sometime to know that node2 is down and recalculate the shortest path, so 
+please wait for a moment.
+
+
+4. longest prefix
+node1 <------> node2 <-------> node3
+In the test, node 1 claim it has /a/b/1, node 2 claims it has /a/
+node 3 claim it has /a/b/.
+
+node 2 has node*.file containing entry like this.
+/a/ FAKE
+/a/b/1 /static/1d339d3eb4da5f87b551366eb1d80e1422bc423a47214abeba3624b03b0fc386
+
+node 3 has node*.file containing entry like this.
+/a/b/ FAKE
+/a/b/1 /static/1d339d3eb4da5f87b551366eb1d80e1422bc423a47214abeba3624b03b0fc386
+
+Node 1 contains this but no /a/b/
+/a/b/1 /static/1d339d3eb4da5f87b551366eb1d80e1422bc423a47214abeba3624b03b0fc386
+
+A lookup for /a/b/1 on node 2, node 3, will get a direct to node 1, who has 
+the longest prefix.
+
+The acutally file may not be provided for save submission space. Please change
+the hash of the file path if you add a file for test
+
+******************************************************************************
+FOR CHECKPOINT 1
+**************************************************************
+For cp1, we mainly use webserver to test our flask and rd.
+
+We tried the normal situation for getfile and addfiele.
+
+We also tried some abnormal situations. For example, when we upload file, we 
+do not specify the object name; or we specify the object name but do not 
+provide a file; or we provide nothing then click 'submit'. Our flask server 
+can handle all these situations.
+
+We also check the debug information on rd to pomise that the datastructure in 
+rd is correct.
+*************************************************************
+
